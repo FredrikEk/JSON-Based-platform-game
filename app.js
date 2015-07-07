@@ -1,7 +1,10 @@
-var express = require('express');
-var app = express();
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
+var express       = require('express');
+var bodyParser    = require("body-parser");
+var app           = express();
+var server        = require('http').Server(app);
+var io            = require('socket.io')(server);
+
+app.use(bodyParser.urlencoded({ extended: false }));
  
 app.use(express.static(__dirname + '/public'));
  
@@ -12,6 +15,18 @@ app.get('/', function(req, res){
 var playerCount = 0;
 var id = 0;
 var tagged = false;
+var command = '';
+var parameter = '';
+
+app.post('/move', function(req,res){
+  command    = req.body.command;
+  parameter  = req.body.parameter;
+  
+  console.log("Command : " + command + ", parameter : " + parameter);
+  io.emit('action', {command: command, parameter: parameter});
+
+  res.end("Command received!");
+});
 
 io.on('connection', function (socket) {
   playerCount++;

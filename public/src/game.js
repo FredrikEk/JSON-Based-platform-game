@@ -26,12 +26,12 @@ require(objectFiles, function () {
     socket.on('connected', function (data) {
       selfId = data['playerId'];
       if (data['tagged']) {
-        player = new Q.Player({ playerId: selfId, x: 48, y: 48, socket: socket });
+        player = new Q.Player({ playerId: selfId, x: 33, y: 33, socket: socket });
         player.p.sheet = 'enemy'
         player.p.tagged = true;
         stage.insert(player);
       } else {
-        player = new Q.Player({ playerId: selfId, x: 48, y: 48, socket: socket });
+        player = new Q.Player({ playerId: selfId, x: 33, y: 33, socket: socket });
         stage.insert(player);
         player.trigger('join');
       }
@@ -69,6 +69,10 @@ require(objectFiles, function () {
           actor.player.p.sheet = 'enemy'
         }
       }
+    });
+
+    socket.on('action', function (data){
+      console.log("Fångar action: Command : " + data['command'] + ", parameter : " + data['parameter']);
     });
   }
 

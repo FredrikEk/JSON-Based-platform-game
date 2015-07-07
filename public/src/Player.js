@@ -1,4 +1,4 @@
-require([], function () { 
+require([], function () {
   Q.Sprite.extend('Player', {
     init: function (p) {
       this._super(p, {
@@ -57,25 +57,25 @@ require([], function () {
       //} else if (!Q.inputs['down'] && !Q.inputs['up']) {
       //  this.p.vy = 0;
       //}
-      console.log(this.p.y + " " + this.p.x);
+      console.log(this.p.x + " " + this.p.y);
       this.p.socket.emit('update', { playerId: this.p.playerId, x: this.p.x, y: this.p.y, sheet: this.p.sheet });
     }
   });
   
   Q.Sprite.extend('Actor', {
-  init: function (p) {
-    this._super(p, {
-      update: true
-    });
- 
-    var temp = this;
-    setInterval(function () {
-      if (!temp.p.update) {
-        temp.destroy();
-      }
-      temp.p.update = false;
-    }, 3000);
-  }
-});
+    init: function (p) {
+      this._super(p, {
+        update: true
+      });
+   
+      var temp = this;
+      setInterval(function () {
+        if (!temp.p.update) {
+          temp.destroy();
+        }
+        temp.p.update = false;
+      }, 3000);
+    }
+  });
   
 });
