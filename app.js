@@ -17,6 +17,12 @@ var id = 0;
 var tagged = false;
 var command = '';
 var parameter = '';
+//var socketMap = {};
+
+//module.exports =
+//{
+// send: send
+//};
 
 app.post('/move', function(req,res){
   command    = req.body.command;
@@ -24,6 +30,8 @@ app.post('/move', function(req,res){
   
   console.log("Command : " + command + ", parameter : " + parameter);
   io.emit('action', {command: command, parameter: parameter});
+
+  //send(data) { io.emit('action', {command: command, parameter: parameter}); }
 
   res.end("Command received!");
 });

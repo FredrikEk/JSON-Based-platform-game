@@ -14,9 +14,10 @@ Q.gravityY = 0;
 
 
 var objectFiles = [
-  '/src/player.js'
+  '/src/player.js',
+  //'../app.js'
 ];
- 
+
 require(objectFiles, function () {
   function setUp (stage) {
     socket.on('count', function (data) {
@@ -70,7 +71,6 @@ require(objectFiles, function () {
         }
       }
     });
-
     socket.on('action', function (data){
       console.log("Fångar action: Command : " + data['command'] + ", parameter : " + data['parameter']);
     });
