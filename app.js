@@ -15,8 +15,6 @@ app.get('/', function(req, res){
 var playerCount = 0;
 var id = 0;
 var tagged = false;
-var command = '';
-var parameter = '';
 //var socketMap = {};
 
 //module.exports =

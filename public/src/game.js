@@ -1,8 +1,10 @@
 require(['socket.io/socket.io.js']);
 
-var players = [];
-var socket = io.connect("http://" + window.location.hostname + ":80");
+var players   = [];
+var socket    = io.connect("http://" + window.location.hostname + ":80");
 var UiPlayers = document.getElementById("players");
+var command   = '';
+var parameter = '';
 
 var Q = Quintus({audioSupported: [ 'wav','mp3' ]})
       .include('Sprites, Scenes, Input, 2D, Anim, Touch, UI, Audio')
@@ -12,10 +14,16 @@ var Q = Quintus({audioSupported: [ 'wav','mp3' ]})
  
 Q.gravityY = 0;
 
+//module.exports = {
+//  getCommand: function() {
+//    console.log("Export i game.js: Command : " + command + ", parameter : " + parameter);
+//    return command + " " + parameter;
+//  }  
+//}
+
 
 var objectFiles = [
-  '/src/player.js',
-  //'../app.js'
+  '/src/Player.js'
 ];
 
 require(objectFiles, function () {
@@ -72,6 +80,16 @@ require(objectFiles, function () {
       }
     });
     socket.on('action', function (data){
+      command   = data['command'];
+      parameter = data['parameter'];
+      switch(data['parameter']){
+        case "left":  player.p.x += -32; break;
+        case "right": player.p.x += 32; break;
+        case "up":    player.p.y += -32; break;
+        case "down":  player.p.y += 32; break;
+        default: break;
+      }
+      player.p.socket.emit('update', { playerId: this.p.playerId, x: this.p.x, y: this.p.y, sheet: this.p.sheet });
       console.log("Fångar action: Command : " + data['command'] + ", parameter : " + data['parameter']);
     });
   }
