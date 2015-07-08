@@ -3,6 +3,7 @@ require(['socket.io/socket.io.js']);
 var players   = [];
 var socket    = io.connect("http://" + window.location.hostname + ":80");
 var UiPlayers = document.getElementById("players");
+var UiTurn = document.getElementById("turn");
 
 var Q = Quintus({audioSupported: [ 'wav','mp3' ]})
       .include('Sprites, Scenes, Input, 2D, Anim, Touch, UI, Audio')
@@ -20,6 +21,11 @@ require(objectFiles, function () {
   function setUp (stage) {
     socket.on('count', function (data) {
       UiPlayers.innerHTML = 'Players: ' + data['playerCount'];
+    });
+
+    socket.on('turn', function (data) {
+      UiTurn.innerHTML = 'Turn: ' + data['turnCount'];
+      console.log('Turn: ' + data['turnCount']);
     });
  
     socket.on('connected', function (data) {
@@ -69,6 +75,7 @@ require(objectFiles, function () {
         }
       }
     });
+
     socket.on('action', function (data){
       
       if (data['command'] == "move") {
@@ -90,8 +97,8 @@ require(objectFiles, function () {
         }
         //Make something better later.
         setTimeout(function() {
-              player.p.vx = 0;
-              player.p.vy = 0;
+          player.p.vx = 0;
+          player.p.vy = 0;
         }, 153);
         player.p.socket.emit('update', { playerId: this.p.playerId, x: this.p.x, y: this.p.y, sheet: this.p.sheet });  
       } else {

@@ -15,23 +15,18 @@ app.get('/', function(req, res){
 var playerCount = 0;
 var id = 0;
 var tagged = false;
-//var socketMap = {};
-
-//module.exports =
-//{
-// send: send
-//};
+var turnCount = 0;
 
 app.post('/move', function(req,res){
   command    = req.body.command;
   parameter  = req.body.parameter;
-  
+  turnCount++;
   console.log("Command : " + command + ", parameter : " + parameter);
   io.emit('action', {command: command, parameter: parameter});
-
-  //send(data) { io.emit('action', {command: command, parameter: parameter}); }
-
+  io.emit('turn', { turnCount: turnCount });
   res.end("Command received!");
+  
+  
 });
 
 io.on('connection', function (socket) {
@@ -44,7 +39,8 @@ io.on('connection', function (socket) {
       socket.emit('connected', { playerId: id });
     }
     io.emit('count', { playerCount: playerCount });
-  }, 1500);
+    io.emit('turn', { turnCount: turnCount });
+  }, 1000);
  
   socket.on('disconnect', function () {
     playerCount--;
