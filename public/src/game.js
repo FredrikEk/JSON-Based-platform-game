@@ -3,8 +3,6 @@ require(['socket.io/socket.io.js']);
 var players   = [];
 var socket    = io.connect("http://" + window.location.hostname + ":80");
 var UiPlayers = document.getElementById("players");
-var command   = '';
-var parameter = '';
 
 var Q = Quintus({audioSupported: [ 'wav','mp3' ]})
       .include('Sprites, Scenes, Input, 2D, Anim, Touch, UI, Audio')
@@ -13,14 +11,6 @@ var Q = Quintus({audioSupported: [ 'wav','mp3' ]})
       .controls().touch();
  
 Q.gravityY = 0;
-
-//module.exports = {
-//  getCommand: function() {
-//    console.log("Export i game.js: Command : " + command + ", parameter : " + parameter);
-//    return command + " " + parameter;
-//  }  
-//}
-
 
 var objectFiles = [
   '/src/Player.js'
@@ -35,12 +25,12 @@ require(objectFiles, function () {
     socket.on('connected', function (data) {
       selfId = data['playerId'];
       if (data['tagged']) {
-        player = new Q.Player({ playerId: selfId, x: 33, y: 33, socket: socket });
+        player = new Q.Player({ playerId: selfId, x: 48, y: 48, socket: socket });
         player.p.sheet = 'enemy'
         player.p.tagged = true;
         stage.insert(player);
       } else {
-        player = new Q.Player({ playerId: selfId, x: 33, y: 33, socket: socket });
+        player = new Q.Player({ playerId: selfId, x: 48, y: 48, socket: socket });
         stage.insert(player);
         player.trigger('join');
       }
@@ -80,17 +70,33 @@ require(objectFiles, function () {
       }
     });
     socket.on('action', function (data){
-      command   = data['command'];
-      parameter = data['parameter'];
-      switch(data['parameter']){
+      
+      if (data['command'] == "move") {
+        /*
+        switch(data['parameter']){
         case "left":  player.p.x += -32; break;
         case "right": player.p.x += 32; break;
         case "up":    player.p.y += -32; break;
         case "down":  player.p.y += 32; break;
         default: break;
+        }
+        */
+        switch(data['parameter']){
+          case "left":  player.p.vx = -200; break;   
+          case "right": player.p.vx = 200; break;
+          case "up":    player.p.vy = -200; break;
+          case "down":  player.p.vy = 200; break;
+          default: break;
+        }
+        //Make something better later.
+        setTimeout(function() {
+              player.p.vx = 0;
+              player.p.vy = 0;
+        }, 153);
+        player.p.socket.emit('update', { playerId: this.p.playerId, x: this.p.x, y: this.p.y, sheet: this.p.sheet });  
+      } else {
+        console.log("Receiving post request: Command : " + data['command'] + ", but it is not recognized.");
       }
-      player.p.socket.emit('update', { playerId: this.p.playerId, x: this.p.x, y: this.p.y, sheet: this.p.sheet });
-      console.log("Fångar action: Command : " + data['command'] + ", parameter : " + data['parameter']);
     });
   }
 
