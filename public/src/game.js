@@ -32,6 +32,7 @@ require(objectFiles, function () {
     socket.on('connected', function (data) {
       selfId = data['playerId'];
 	  randomIdTemp = Math.random();
+    console.log("Randomly generated id: " + randomIdTemp)
       if (data['tagged']) {
         player = new Q.Player({ playerId: selfId, x: 48, y: 48, socket: socket, randomId: randomIdTemp });
         player.p.sheet = 'enemy'
