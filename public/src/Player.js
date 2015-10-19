@@ -6,7 +6,8 @@ require([], function () {
         tagged: false,
         invincible: false,
         vyMult: 1,
-        socket: socket
+        socket: socket,
+		randomId: randomId
       });
  
       this.add('2d, stepControls, animation');

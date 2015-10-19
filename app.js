@@ -20,9 +20,10 @@ var turnCount = 0;
 app.post('/move', function(req,res){
   command    = req.body.command;
   parameter  = req.body.parameter;
+  randomId   = req.body.randomId;
   turnCount++;
   console.log("Command : " + command + ", parameter : " + parameter);
-  io.emit('action', {command: command, parameter: parameter});
+  io.emit('action', {command: command, parameter: parameter, randomId: randomId});
   io.emit('turn', { turnCount: turnCount });
   res.end("Command received!");
   
