@@ -30,6 +30,7 @@ require(objectFiles, function () {
  
     socket.on('connected', function (data) {
       selfId = data['playerId'];
+	  
       if (data['tagged']) {
         player = new Q.Player({ playerId: selfId, x: 48, y: 48, socket: socket });
         player.p.sheet = 'enemy'
@@ -47,7 +48,7 @@ require(objectFiles, function () {
       var actor = players.filter(function (obj) {
         return obj.playerId == data['playerId'];
       })[0];
-      if (actor) {
+      /*if (actor) {
         actor.player.p.x = data['x'];
         actor.player.p.y = data['y'];
         actor.player.p.sheet = data['sheet'];
@@ -55,11 +56,11 @@ require(objectFiles, function () {
         actor.player.p.invincible = data['invincible'];
         actor.player.p.tagged = data['tagged'];
         actor.player.p.update = true;
-      } else {
+      } else {*/
         var temp = new Q.Actor({ playerId: data['playerId'], x: data['x'], y: data['y'], sheet: data['sheet'], opacity: data['opacity'], invincible: data['invincible'], tagged: data['tagged'] });
         players.push({ player: temp, playerId: data['playerId'] });
         stage.insert(temp);
-      }
+      //}
     });
  
     socket.on('tagged', function (data) {
@@ -88,19 +89,23 @@ require(objectFiles, function () {
         default: break;
         }
         */
+		var actor = players.filter(function (obj) {
+			return obj.playerId == data['playerId'];
+		})[0];
+		
         switch(data['parameter']){
-          case "left":  player.p.vx = -200; break;   
-          case "right": player.p.vx = 200; break;
-          case "up":    player.p.vy = -200; break;
-          case "down":  player.p.vy = 200; break;
+          case "left":  actor.player.p.vx = -200; break;   
+          case "right": actor.player.p.vx = 200; break;
+          case "up":    actor.player.p.vy = -200; break;
+          case "down":  actor.player.p.vy = 200; break;
           default: break;
         }
         //Make something better later.
         setTimeout(function() {
-          player.p.vx = 0;
-          player.p.vy = 0;
+          actor.player.p.vx = 0;
+          actor.player.p.vy = 0;
         }, 153);
-        player.p.socket.emit('update', { playerId: this.p.playerId, x: this.p.x, y: this.p.y, sheet: this.p.sheet });  
+        actor.player.p.socket.emit('update', { playerId: this.p.playerId, x: this.p.x, y: this.p.y, sheet: this.p.sheet });  
       } else {
         console.log("Receiving post request: Command : " + data['command'] + ", but it is not recognized.");
       }
