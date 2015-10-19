@@ -31,11 +31,11 @@ require(objectFiles, function () {
  
     socket.on('connected', function (data) {
       selfId = data['playerId'];
-	    var randomIdTemp = Math.floor((Math.random() * 100) + 1); 
-	    while(randomIdArray[randomIdTemp] != undefined) {
-		  randomIdTemp = Math.floor((Math.random() * 100) + 1);
-	    }
-	    console.log("Randomly generated id: " + randomIdTemp)
+      var randomIdTemp = Math.floor((Math.random() * 100) + 1); 
+      while(randomIdArray[randomIdTemp] != undefined) {
+        randomIdTemp = Math.floor((Math.random() * 100) + 1);
+      }
+	  console.log("Randomly generated id: " + randomIdTemp)
       if (data['tagged']) {
         player = new Q.Player({ playerId: selfId, x: 48, y: 48, socket: socket, randomId: randomIdTemp });
         player.p.sheet = 'enemy'
