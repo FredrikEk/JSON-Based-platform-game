@@ -31,24 +31,24 @@ require(objectFiles, function () {
  
     socket.on('connected', function (data) {
       selfId = data['playerId'];
-	  var randomIdTemp = Math.floor((Math.random() * 100) + 1); 
-	  while(randomIdArray[randomIdTemp] != undefined) {
+	    var randomIdTemp = Math.floor((Math.random() * 100) + 1); 
+	    while(randomIdArray[randomIdTemp] != undefined) {
 		  randomIdTemp = Math.floor((Math.random() * 100) + 1);
-	  }
-	  console.log("Randomly generated id: " + randomIdTemp)
+	    }
+	    console.log("Randomly generated id: " + randomIdTemp)
       if (data['tagged']) {
         player = new Q.Player({ playerId: selfId, x: 48, y: 48, socket: socket, randomId: randomIdTemp });
         player.p.sheet = 'enemy'
         player.p.tagged = true;
         stage.insert(player);
-		randomIdArray[randomIdTemp] = player;
+		    randomIdArray[randomIdTemp] = player;
       } else {
         player = new Q.Player({ playerId: selfId, x: 48, y: 48, socket: socket, randomId: randomIdTemp });
         stage.insert(player);
-		randomIdArray[randomIdTemp] = player;
+		    randomIdArray[randomIdTemp] = player;
         player.trigger('join');
       }
-	  console.log("A person with ID: " + randomIdTemp + " joined. Use the randomId to control it.");
+	    console.log("A person with ID: " + randomIdTemp + " joined. Use the randomId to control it.");
       stage.add('viewport').follow(player);
     });
  
