@@ -1,6 +1,6 @@
 require([], function () {
   Q.Sprite.extend('Player', {
-    init: function (p) {
+    init: function (p, randomIdTemp) {
       this._super(p, {
         sheet: 'player',
         tagged: false,
@@ -8,7 +8,7 @@ require([], function () {
         vyMult: 1,
         socket: socket
       });
-      this.randomId = randomIdT;
+      this.randomId = randomIdTemp.randomId;
       this.add('2d, stepControls, animation');
 
       this.addEventListeners();
