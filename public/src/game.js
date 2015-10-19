@@ -44,7 +44,7 @@ require(objectFiles, function () {
 		randomIdArray[randomIdTemp] = player;
         player.trigger('join');
       }
-	  console.log("A person with ID: " randomIdTemp + " joined. Use the randomId to control it.");
+	  console.log("A person with ID: " + randomIdTemp + " joined. Use the randomId to control it.");
       stage.add('viewport').follow(player);
     });
  
