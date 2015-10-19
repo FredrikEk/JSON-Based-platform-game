@@ -14,7 +14,7 @@ app.get('/', function(req, res){
 
 var playerCount = 0;
 var id = 0;
-var tagged = false;
+//var tagged = false;
 var turnCount = 0;
 
 app.post('/move', function(req,res){
@@ -34,11 +34,11 @@ io.on('connection', function (socket) {
   playerCount++;
   id++;
   setTimeout(function () {
-    if (!tagged) {
-      socket.emit('connected', { playerId: id, tagged: true });
-    } else {
+    //if (!tagged) {
+    //  socket.emit('connected', { playerId: id, tagged: true });
+    //} else {
       socket.emit('connected', { playerId: id });
-    }
+    //}
     io.emit('count', { playerCount: playerCount });
     io.emit('turn', { turnCount: turnCount });
   }, 1000);
@@ -49,20 +49,20 @@ io.on('connection', function (socket) {
   });
 
   socket.on('update', function (data) {
-    if (data['tagged']) {
-      tagged = true;
-    }
+    //if (data['tagged']) {
+    //  tagged = true;
+    //}
     socket.broadcast.emit('updated', data);
   });
 
-  socket.on('tag', function (data) {
-    io.emit('tagged', data);
-  });
+  //socket.on('tag', function (data) {
+  //  io.emit('tagged', data);
+  //});
 });
 
-setInterval(function () {
-  tagged = false;
-}, 3000);
+//setInterval(function () {
+//  tagged = false;
+//}, 3000);
 
 
 

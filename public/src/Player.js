@@ -3,7 +3,7 @@ require([], function () {
     init: function (p, randomIdTemp) {
       this._super(p, {
         sheet: 'player',
-        tagged: false,
+        //tagged: false,
         invincible: false,
         vyMult: 1,
         socket: socket
@@ -16,22 +16,23 @@ require([], function () {
 
     addEventListeners: function () {
       this.on('hit', function (collision) {
-        if (this.p.tagged && collision.obj.isA('Actor') && !collision.obj.p.tagged && !collision.obj.p.invincible) {
-          this.p.socket.emit('tag', { playerId: collision.obj.p.playerId });
-          this.p.tagged = false;
-          this.p.sheet = 'player';
-          this.p.invincible = true;
-          this.p.opacity = 0.5;
-          this.p.speed = 300;
-          this.p.vyMult = 1.5;
-          var temp = this;
-          setTimeout(function () {
-            temp.p.invincible = false;
-            temp.p.opacity = 1;
-            temp.p.speed = 200;
-            temp.p.vyMult = 1;
-          }, 3000);
-        }
+        //if (this.p.tagged && collision.obj.isA('Actor') && !collision.obj.p.tagged && !collision.obj.p.invincible) {
+        //  this.p.socket.emit('tag', { playerId: collision.obj.p.playerId });
+        //  this.p.tagged = false;
+        //  this.p.sheet = 'player';
+        //  this.p.invincible = true;
+        //  this.p.opacity = 0.5;
+        //  this.p.speed = 300;
+        //  this.p.vyMult = 1.5;
+        //  var temp = this;
+        //  setTimeout(function () {
+        //    temp.p.invincible = false;
+        //    temp.p.opacity = 1;
+        //    temp.p.speed = 200;
+        //    temp.p.vyMult = 1;
+        //  }, 3000);
+        //}
+        console.log("You hit someone")
       });
  
       this.on('join', function () {
