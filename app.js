@@ -4,6 +4,10 @@ var app           = express();
 var server        = require('http').Server(app);
 var io            = require('socket.io')(server);
 
+//io.emit skickar till alla connectade sockets
+//socket.emit skickar till enbart den som initerade connection
+//socket.broadcast skickar till alla förutom den som initierade connection
+
 app.use(bodyParser.urlencoded({ extended: false }));
  
 app.use(express.static(__dirname + '/public'));
