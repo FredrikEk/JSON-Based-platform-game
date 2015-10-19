@@ -37,13 +37,13 @@ require(objectFiles, function () {
       }
 	  console.log("Randomly generated id: " + randomIdTemp)
       if (data['tagged']) {
-        player = new Q.Player({ playerId: selfId, x: 48, y: 48, socket: socket, randomId: randomIdTemp });
+        player = new Q.Player({ playerId: selfId, x: 48, y: 48, socket: socket, randomIdT: randomIdTemp });
         player.p.sheet = 'enemy'
         player.p.tagged = true;
         stage.insert(player);
 		    randomIdArray[randomIdTemp] = player;
       } else {
-        player = new Q.Player({ playerId: selfId, x: 48, y: 48, socket: socket, randomId: randomIdTemp });
+        player = new Q.Player({ playerId: selfId, x: 48, y: 48, socket: socket, randomIdT: randomIdTemp });
         stage.insert(player);
 		    randomIdArray[randomIdTemp] = player;
         player.trigger('join');

@@ -8,7 +8,7 @@ require([], function () {
         vyMult: 1,
         socket: socket
       });
-      this.randomId = randomId;
+      this.randomId = randomIdT;
       this.add('2d, stepControls, animation');
 
       this.addEventListeners();
